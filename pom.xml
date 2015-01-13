@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.att.bdcoe</groupId>
+	<artifactId>bigdata-geo-data-pom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Big Data Test GEO data generator solution</name>
+
+  	<properties>
+    	<repo.root>http://mavencentral.it.att.com:8084</repo.root>
+    </properties>
+
+  	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>BDCOE-releases</name>
+			<url>${repo.root}/nexus/content/repositories/BDCOE-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>BDCOE-snapshots</name>
+			<url>${repo.root}/nexus/content/repositories/BDCOE-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<scm>
+      	<url>https://codecloud.web.att.com/projects/BDCOE/repos</url>
+       	<connection>scm:git:ssh://git@codecloud.web.att.com:7999/bdcoe/datagenerator.git</connection>
+       	<developerConnection>scm:git:ssh://git@codecloud.web.att.com:7999/bdcoe/datagenerator.git</developerConnection>
+		<tag>develop</tag>
+	</scm>
+	<modules>
+		<module>cip-geo-data-core</module>
+        <module>cip-geo-data-generator</module>
+		<module>cip-geo-data-generator-webapp</module>
+
+    </modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
