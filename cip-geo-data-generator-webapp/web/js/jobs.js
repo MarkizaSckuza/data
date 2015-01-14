@@ -1,6 +1,6 @@
 function createJobs(tabs)
 {
-    var jobsPanel = Ext.create('DataGenerator.ui.JobManagmentPanel');//,{items:[outputsForm,outputsGrid]}
+    var jobsPanel = Ext.create('DataGenerator.ui.jobs.JobManagementPanel');//,{items:[outputsForm,outputsGrid]}
     var jobsTab = tabs.add({
         xtype: 'container',
         title: 'Jobs management',

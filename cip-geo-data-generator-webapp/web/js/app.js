@@ -1,4 +1,11 @@
-Ext.Loader.setPath('wifi', 'js/WiFi');
+Ext.Loader.setConfig({
+    enabled : true,
+    paths   : {
+        DataGenerator: 'js/ext',
+        wifi: 'js/WiFi'
+    } 
+});
+
 Ext.define('DataGenerator.app.Application', {
     extend: 'Ext.app.Application',
 
