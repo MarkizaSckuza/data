@@ -1,13 +1,9 @@
-Ext.define("DataGenerator.ui.jobs.LocationForm", {
+Ext.define('DataGenerator.ui.jobs.LocationForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.locationform',
-    id: 'location-output-form',
-    xtype: 'panel',
-    autoScroll: true,
-    autoLoad: true,
+    
     padding: '0',
 
-//    height: 300,
     layout: {
         type: 'vbox',
         anchor: '100%'
@@ -15,6 +11,9 @@ Ext.define("DataGenerator.ui.jobs.LocationForm", {
     defaults: {
         anchor: '100%',
         labelWidth: 100
+    },
+    viewModel : {
+        type: 'outputviewmodel'
     },
     items: [
         {
@@ -30,36 +29,38 @@ Ext.define("DataGenerator.ui.jobs.LocationForm", {
                     flex: 1,
                     items:[
                         {
-                            xtype       : 'combobox',
-                            name        : 'Partition type:',
-                            id:'location-based-outputs-combobox',
+                            xtype: 'textfield',
+                            fieldLabel: 'Factory',
+                            bind: '{record.factoryName}'
+                        },
+                        {
+                            xtype: 'combobox',
+                            name: 'Partition type:',
                             displayField: 'fileName',
-                            fieldLabel  : 'Location output :',
-                            valueField  : 'fileName',
-                            editable    : false,
-                            value       : '0',
+                            fieldLabel: 'Location output :',
+                            valueField: 'fileName',
+                            editable: false,
+                            value: 0,
                             store: Ext.data.StoreManager.lookup('locationOutputStore')
                         },
-
-                        {xtype     : 'textfield',
-                            name      : 'path',
-                            fieldLabel: 'Path :',
-                            msgTarget: 'side',
-                            allowBlank: false},
-
-                            {
-                                xtype       : 'combobox',
-                                name        : 'partition_type',
-                                id:'location-partition-type-combobox',
-                                fieldLabel  : 'Partition type:',
-                                valueField  : 'typeId',
-                                editable    : false,
-                                value       : '0',
-                                store       : [['0','First type'],['1','Second type']]
-                            },
                         {
-                            xtype     : 'textfield',
-                            id      : 'LocationSeparatorTxt',
+                            xtype: 'textfield',
+                            bind: '{record.path}',
+                            fieldLabel: 'Path:',
+                            msgTarget: 'side',
+                            allowBlank: false
+                        },
+                        {
+                            xtype: 'combobox',
+                            name: 'partition_type',
+                            fieldLabel: 'Partition type:',
+                            valueField: 'typeId',
+                            editable: false,
+                            value: 0,
+                            store: [['0','First type'],['1','Second type']]
+                        },
+                        {
+                            xtype: 'textfield',
                             fieldLabel: 'Separator :',
                             allowBlank: false
 

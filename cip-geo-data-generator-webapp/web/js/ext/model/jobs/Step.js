@@ -3,12 +3,13 @@ Ext.define('DataGenerator.model.jobs.Step', {
 
     fields: [
         { name: 'id', type: 'int' },
-        { name: 'locationBasedOutput' },
-        { name: 'scenarios', reference: 'Scenario' },
-        { name: 'nonlocations', reference: 'NonLocation' }
+        { name: 'locationBasedOutput', reference: 'Output', unique: true },
+        { name: 'job', reference: 'Job' }
     ],
 
     schema: {
         namespace: 'DataGenerator.model.jobs'
-    }
+    },
+    
+    hasOne: 'Output'
 });

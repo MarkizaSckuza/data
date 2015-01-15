@@ -16,6 +16,9 @@ Ext.define("DataGenerator.ui.jobs.NonLocationForm", {
         anchor: '100%',
         labelWidth: 100
     },
+    viewModel : {
+        type: 'outputviewmodel'
+    },
     items: [
         {
             xtype: 'fieldset',
@@ -29,12 +32,18 @@ Ext.define("DataGenerator.ui.jobs.NonLocationForm", {
             id: 'non-location-output-field-set',
             flex: 1,
             items:[
-                {xtype     : 'textfield',
-                    name      : 'path',
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Factory',
+                    bind: '{record.factoryName}'
+                },
+                {
+                    xtype: 'textfield',
+                    bind: '{record.path}',
                     fieldLabel: 'Path :',
                     msgTarget: 'side',
-                    allowBlank: false},
-
+                    allowBlank: false
+                },
                 {
                     xtype       : 'combobox',
                     name        : 'partition_type',

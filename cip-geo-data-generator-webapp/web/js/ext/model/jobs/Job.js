@@ -3,18 +3,20 @@ Ext.define('DataGenerator.model.jobs.Job', {
 
     fields: [
         { name: 'id', type: 'int' },
-        { name: 'steps', reference: 'Step' }
+        { name: 'fileName', type: 'string' },
+        { name: 'fileNameToShow', type: 'string' },
+//        { name: 'steps', reference: 'Step' }
     ],
 
     schema: {
         namespace: 'DataGenerator.model.jobs',  // generate auto entityName
 
-        proxy: {
-            type: 'ajax',
-            url: '/jobs.json',
-            reader: {
-                type: 'json'
-            }
-        }
+//        proxy: {
+//            type: 'ajax',
+//            url: '/jobs.json',
+//            reader: {
+//                type: 'json'
+//            }
+//        }
     }
 });

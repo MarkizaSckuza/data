@@ -1,20 +1,31 @@
 Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
     extend: 'Ext.panel.Panel',
+    
+    // @TODO: do not forget to move this definitions to right place
     requires: [
+        'DataGenerator.controller.Job',
+        
         'DataGenerator.ui.jobs.JobGrid',
         'DataGenerator.ui.jobs.ScenarioGrid',
         'DataGenerator.ui.jobs.StepGrid',
         'DataGenerator.ui.jobs.NonLocationGrid',
         
+        'DataGenerator.ui.jobs.JobForm',
+        'DataGenerator.ui.jobs.StepForm',
         'DataGenerator.ui.jobs.LocationForm',
         'DataGenerator.ui.jobs.NonLocationForm',
+        
+        'DataGenerator.ui.jobs.OutputViewModel',
         
         'DataGenerator.store.jobs.Job',
         'DataGenerator.store.jobs.Step',
         'DataGenerator.store.jobs.Scenario',
-        'DataGenerator.store.jobs.NonLocation'
+        'DataGenerator.store.jobs.Output'
     ],
     title: 'Jobs manager',
+    
+    controller: 'job',
+    
     margin: '0 0 0 0',
     layout: 'border',
     items:[
@@ -29,20 +40,21 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
                 width: '100%',
                 defaults: {
                     flex: 1,
-                    height: '100%'
+                    height: '100%',
+                    style: 'border: 2px solid #cecece'
                 }
             },
             items: [
                 {
                     items: [
-                        { xtype: 'jobgrid' },
-                        { xtype: 'scenariogrid' }
+                        { xtype: 'jobgrid', reference: 'jobGrid' },
+                        { xtype: 'scenariogrid', reference: 'scenarioGrid' }
                     ]
                 },
                 {
                     items: [
-                        { xtype: 'stepgrid' },
-                        { xtype: 'nonlocationgrid' }
+                        { xtype: 'stepgrid', reference: 'stepGrid' },
+                        { xtype: 'nonlocationgrid', reference: 'nonLocationGrid' }
                     ]
                 }
             ]
@@ -52,8 +64,8 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
             region: 'east',
             layout: 'vbox',
             items: [
-                { xtype: 'locationform' },
-                { xtype: 'nonlocationform' }
+                { xtype: 'locationform', reference: 'locationForm' },
+                { xtype: 'nonlocationform', reference: 'nonLocationForm' }
             ]
         }
     ]
