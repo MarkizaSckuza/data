@@ -20,7 +20,7 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
         'DataGenerator.ui.jobs.ScenarioViewModel',
         'DataGenerator.ui.jobs.OutputViewModel',
         
-        'DataGenerator.store.jobs.Job',
+//        'DataGenerator.store.jobs.Job',
         'DataGenerator.store.jobs.Step',
         'DataGenerator.store.jobs.Scenario',
         'DataGenerator.store.jobs.Output'

@@ -1,5 +1,8 @@
 Ext.define('DataGenerator.ui.jobs.JobViewModel', {
     extend: 'Ext.app.ViewModel',
+    requires: [
+        'DataGenerator.model.jobs.Job'
+    ],
 
     alias: 'viewmodel.jobviewmodel',
     
