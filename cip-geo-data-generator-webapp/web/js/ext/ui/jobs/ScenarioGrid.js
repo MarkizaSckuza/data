@@ -1,7 +1,15 @@
 Ext.define("DataGenerator.ui.jobs.ScenarioGrid", {
     extend: 'Ext.grid.Panel',
     alias: 'widget.scenariogrid',
-    title: 'Scenarios ',
+    title: 'Scenarios',
+    
+    viewModel : {
+        type: 'scenarioviewmodel'
+    },
+    
+    bind: {
+        title: 'Scenarios for {step.id}'
+    },
 
     initComponent: function() {
         this.columns = this.getColumns();

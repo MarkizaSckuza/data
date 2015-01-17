@@ -11,6 +11,8 @@ Ext.define('DataGenerator.model.jobs.Output', {
         { name: 'location', type: 'string' },
         { name: 'step', reference: 'Step' }
     ],
+    
+    idProperty: 'factoryName',
 
     schema: {
         namespace: 'DataGenerator.model.jobs'

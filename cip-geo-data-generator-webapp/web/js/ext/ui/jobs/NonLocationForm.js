@@ -19,24 +19,19 @@ Ext.define("DataGenerator.ui.jobs.NonLocationForm", {
     viewModel : {
         type: 'outputviewmodel'
     },
+   
     items: [
         {
             xtype: 'fieldset',
             title: 'Non Location Output parameters',
-            titeleCopy : 'Non Location Output parameters',
+            bind: {
+                title: 'Non Location Output parameters for {record.factoryName}'
+            },
             margin: '10 10 10 10',
             layout: 'anchor',
             autoWidth: true,
-            stepSelected:-1,
-            jobSelected:-1,
-            id: 'non-location-output-field-set',
             flex: 1,
             items:[
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Factory',
-                    bind: '{record.factoryName}'
-                },
                 {
                     xtype: 'textfield',
                     bind: '{record.path}',
@@ -45,33 +40,37 @@ Ext.define("DataGenerator.ui.jobs.NonLocationForm", {
                     allowBlank: false
                 },
                 {
-                    xtype       : 'combobox',
-                    name        : 'partition_type',
-                    id:'non-location-partition-type-combobox',
-                    fieldLabel  : 'Partition type:',
-                    valueField  : 'typeId',
-                    editable    : false,
-                    value       : '0',
-                    store       : [['0','First type'],['1','Second type']]
+                    xtype: 'combobox',
+                    fieldLabel: 'Partition type:',
+                    valueField: 'typeId',
+                    editable: false,
+                    store: [['0','First type'],['1','Second type']],
+                    bind: {
+                        value: '{record.partitionType}'
+                    }
                 },
                 {
-                    xtype     : 'textfield',
-                    id      : 'NonLocationSeparatorTxt',
+                    xtype: 'textfield',
                     fieldLabel: 'Separator :',
-                    allowBlank: false
-
+                    allowBlank: false,
+                    bind: '{record.separator}',
+                    itemId: 'separator'
                 },
                 {
                     xtype: 'checkbox',
                     boxLabel: 'Overwrite default separator',
-                    id: 'NonLocationSeparatorCheckbox',
-                    checked: true,
+                    checked: false,
                     inputValue: 'overwrite',
                     flex: 1,
                     listeners: {
                         change: function (cb, checked) {
-                            if (checked) Ext.getCmp('NonLocationSeparatorTxt').disable();
-                            else Ext.getCmp('NonLocationSeparatorTxt').enable();
+                            var separatorField = cb.up('fieldset').down('[itemId=separator]');
+                            
+                            if (checked) {
+                                separatorField.disable();
+                            } else {
+                                separatorField.enable();
+                            }
                         }
                     }
                 }

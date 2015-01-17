@@ -15,6 +15,9 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
         'DataGenerator.ui.jobs.LocationForm',
         'DataGenerator.ui.jobs.NonLocationForm',
         
+        'DataGenerator.ui.jobs.JobViewModel',
+        'DataGenerator.ui.jobs.StepViewModel',
+        'DataGenerator.ui.jobs.ScenarioViewModel',
         'DataGenerator.ui.jobs.OutputViewModel',
         
         'DataGenerator.store.jobs.Job',
@@ -65,7 +68,13 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
             layout: 'vbox',
             items: [
                 { xtype: 'locationform', reference: 'locationForm' },
-                { xtype: 'nonlocationform', reference: 'nonLocationForm' }
+                { xtype: 'nonlocationform', reference: 'nonLocationForm' },
+                {
+                    xtype: 'button',
+                    text: 'Save all jobs',
+                    action: 'save-all-jobs',
+                    reference: 'saveAllBtn'
+                }
             ]
         }
     ]

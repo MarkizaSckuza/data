@@ -15,33 +15,36 @@ Ext.define('DataGenerator.ui.jobs.LocationForm', {
     viewModel : {
         type: 'outputviewmodel'
     },
-    items: [
-        {
+    
+    initComponent: function () {
+        var me = this,
+            outputStore = Ext.create('DataGenerator.store.jobs.Output');
+    
+        outputStore.load();
+        
+        Ext.applyIf(me, {
+            items: [
+                {
                     xtype: 'fieldset',
                     title: 'Location Output parameters',
-                    titeleCopy : 'Location Output parameters',
-                    id: 'location-output-field-set',
+                    bind: {
+                        title: 'Location Output parameters for {record.factoryName}'
+                    },
                     margin: '10 10 10 10',
                     layout: 'anchor',
                     autoWidth: true,
-                    stepSelected:-1,
-                    jobSelected:-1,
                     flex: 1,
-                    items:[
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: 'Factory',
-                            bind: '{record.factoryName}'
-                        },
+                    items: [
                         {
                             xtype: 'combobox',
-                            name: 'Partition type:',
-                            displayField: 'fileName',
-                            fieldLabel: 'Location output :',
-                            valueField: 'fileName',
+                            displayField: 'factoryName',
+                            fieldLabel: 'Location output:',
+                            valueField: 'factoryName',
                             editable: false,
-                            value: 0,
-                            store: Ext.data.StoreManager.lookup('locationOutputStore')
+                            bind: {
+                                value: '{record.locationBasedOutput.factoryName}'
+                            },
+                            store: outputStore
                         },
                         {
                             xtype: 'textfield',
@@ -56,33 +59,41 @@ Ext.define('DataGenerator.ui.jobs.LocationForm', {
                             fieldLabel: 'Partition type:',
                             valueField: 'typeId',
                             editable: false,
-                            value: 0,
-                            store: [['0','First type'],['1','Second type']]
+                            store: [['0','First type'],['1','Second type']],
+                            bind: {
+                                value: '{record.partitionType}'
+                            }
                         },
                         {
                             xtype: 'textfield',
-                            fieldLabel: 'Separator :',
-                            allowBlank: false
-
+                            fieldLabel: 'Separator:',
+                            allowBlank: false,
+                            bind: '{record.separator}',
+                            itemId: 'separator'
                         },
                         {
                             xtype: 'checkbox',
                             boxLabel: 'Overwrite default separator',
-                            id: 'LocationSeparatorCheckbox',
-                            checked: true,
+                            checked: false,
                             inputValue: 'overwrite',
                             flex: 1,
                             listeners: {
                                 change: function (cb, checked) {
-                                    if (checked) Ext.getCmp('LocationSeparatorTxt').disable();
-                                    else Ext.getCmp('LocationSeparatorTxt').enable();
+                                    var separatorField = cb.up('fieldset').down('[itemId=separator]');
+                                    
+                                    if (checked) {
+                                        separatorField.disable();
+                                    } else {
+                                        separatorField.enable();
+                                    }
                                 }
                             }
                         }
-                    ],
-                    clearTitle:function(){
-                        this.setTitle(this.titeleCopy);
-                    }
+                    ]
         }
     ]
+        });
+        
+        me.callParent(arguments);
+    }
 });
