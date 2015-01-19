@@ -9,13 +9,19 @@ Ext.define('DataGenerator.ui.jobs.JobGrid', {
         store: '{jobs}'
     },
     
-//    tbar: [
-//        {
-//            xtype: 'button',
-//            text: 'Create',
-//            action: 'create'
-//        }
-//    ],
+    tbar: [
+        {
+            xtype: 'button',
+            text: 'Create',
+            action: 'create'
+        },
+        {
+            xtype: 'button',
+            text: 'Save all jobs',
+            action: 'save-all-jobs',
+            reference: 'saveAllBtn'
+        }
+    ],
     
     initComponent: function () {
         var me = this;
@@ -23,7 +29,7 @@ Ext.define('DataGenerator.ui.jobs.JobGrid', {
         Ext.applyIf(me, {
             columns: [
                 {
-                    text: 'fileNameToShow',
+                    text: 'Job name',
                     dataIndex: 'fileNameToShow',
                     flex: 1
                 }

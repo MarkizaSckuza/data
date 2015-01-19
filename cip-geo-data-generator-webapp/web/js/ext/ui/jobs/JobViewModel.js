@@ -6,7 +6,7 @@ Ext.define('DataGenerator.ui.jobs.JobViewModel', {
 
     alias: 'viewmodel.jobviewmodel',
     
-//    data: { record: null },
+    data: { record: null },
     
     stores: {
         jobs: {

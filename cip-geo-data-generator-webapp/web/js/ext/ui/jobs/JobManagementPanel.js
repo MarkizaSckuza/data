@@ -1,4 +1,4 @@
-Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
+Ext.define('DataGenerator.ui.jobs.JobManagementPanel',{
     extend: 'Ext.panel.Panel',
     
     // @TODO: do not forget to move this definitions to right place
@@ -66,14 +66,26 @@ Ext.define("DataGenerator.ui.jobs.JobManagementPanel",{
             xtype: 'container',
             region: 'east',
             layout: 'vbox',
+            defaults: {
+                xtype: 'container',
+                flex: 1,
+                height: '100%',
+                layout: 'vbox',
+                style: {
+                    background: 'white',
+                    border: '2px solid #cecece'
+                }
+            },
             items: [
-                { xtype: 'locationform', reference: 'locationForm' },
-                { xtype: 'nonlocationform', reference: 'nonLocationForm' },
                 {
-                    xtype: 'button',
-                    text: 'Save all jobs',
-                    action: 'save-all-jobs',
-                    reference: 'saveAllBtn'
+                    items: [
+                        { xtype: 'locationform', reference: 'locationForm' }
+                    ]
+                },
+                {
+                    items: [
+                        { xtype: 'nonlocationform', reference: 'nonLocationForm' }
+                    ]
                 }
             ]
         }

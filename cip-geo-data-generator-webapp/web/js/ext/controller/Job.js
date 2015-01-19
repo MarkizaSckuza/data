@@ -7,17 +7,18 @@ Ext.define('DataGenerator.controller.Job', {
         
         me.control({
             'jobgrid': {
-                itemclick: me.onJobItemClick,
                 selectionchange: me.onJobSelectionChange
             },
             'jobgrid button[action=create]': {
                 click: me.onJobCreateClick
             },
-            'jobform button[action=close]': {
-                click: function () { }
+            'jobgrid button[action=save-all-jobs]': {
+                click: me.onJobSaveAllJobsClick
+            },
+            'jobform button[action=save]': {
+                click: me.onJobSaveClick
             },
             'stepgrid': {
-                itemclick: me.onStepItemClick,
                 selectionchange: me.onStepSelectionChange
             },
             'stepgrid button[action=create]': {
@@ -26,14 +27,8 @@ Ext.define('DataGenerator.controller.Job', {
             'stepgrid button[action=remove]': {
                 click: me.onStepRemoveClick
             },
-            'scenariogrid': {
-                itemclick: me.onScenarioItemClick
-            },
             'nonlocationgrid': {
-                itemclick: me.onNonLocationItemClick
-            },
-            'button[action=save-all-jobs]': {
-                click: me.onSaveAllJobs
+                selectionchange: me.onNonLocationSelectionChange
             }
         });
         
@@ -44,64 +39,74 @@ Ext.define('DataGenerator.controller.Job', {
         };
     },
     
-    onJobItemClick: function (grid, record) {
-        var me = this,
-            stepGrid = me.lookupReference('stepGrid');
-        
-        stepGrid.reconfigure(record.steps());
-        stepGrid.getViewModel().setData({ job: record });
-        
-        me.clearGrids();
-    },
-    
     onJobSelectionChange: function (grid, records) {
         var me = this,
-            stepGrid = me.lookupReference('stepGrid');
+            stepGrid = me.lookupReference('stepGrid'),
+            record = records[0];
     
-        if (records.length) {
+        if (record) {
             stepGrid.down('button[action=create]').enable();
+            
+            stepGrid.reconfigure(record.steps());
+            stepGrid.getViewModel().setData({ job: record });
+
+            me.clearGrids();
         } else {
             stepGrid.down('button[action=create]').disable();
         }
     },
     
-    onStepItemClick: function (grid, record) {
+    onJobSaveClick: function (btn) {
         var me = this,
-            scenarioGrid = me.lookupReference('scenarioGrid'),
-            nonLocationGrid = me.lookupReference('nonLocationGrid'),
-            locationForm = me.lookupReference('locationForm'),
+            jobGrid = me.lookupReference('jobGrid') || Ext.ComponentQuery.query('[reference=jobGrid]')[0],
+            form = btn.up('form').getForm(),
+            win = btn.up('window'),
+            record = form.getRecord();
+        
+        if (form.isValid()) {
+            if (record) {
+                jobGrid.getStore().add(record);
+            } else {
+                Ext.msg.alert('Failure', 'Something wrong! Can\'t get record');
+            }
             
-            locationBasedOutput = record.getLocationBasedOutput();
-        
-        scenarioGrid.reconfigure(record.scenarios());
-        scenarioGrid.getViewModel().setData({ step: record });
-        
-        nonLocationGrid.reconfigure(record.outputs());
-        nonLocationGrid.getViewModel().setData({ step: record });
-        
-        if (locationBasedOutput) {
-            locationForm.getViewModel().setData({ record: record.getLocationBasedOutput() });
+            win.close();
         }
     },
     
     onStepSelectionChange: function (grid, records) {
         var me = this,
-            stepGrid = me.lookupReference('stepGrid');
+            stepGrid = me.lookupReference('stepGrid'),
+            scenarioGrid = me.lookupReference('scenarioGrid'),
+            nonLocationGrid = me.lookupReference('nonLocationGrid'),
+            locationForm = me.lookupReference('locationForm'),
+            record = records[0],
+            locationBasedOutput;
     
-        if (records.length) {
+        if (record) {
+            scenarioGrid.reconfigure(record.scenarios());
+            scenarioGrid.getViewModel().setData({ step: record });
+
+            nonLocationGrid.reconfigure(record.outputs());
+            nonLocationGrid.getViewModel().setData({ step: record });
+            
+            
+            locationBasedOutput = record.getLocationBasedOutput();
+
+            if (locationBasedOutput) {
+                locationForm.getViewModel().setData({ record: locationBasedOutput });
+            }
+            
             stepGrid.down('button[action=remove]').enable();
         } else {
             stepGrid.down('button[action=remove]').disable();
         }
     },
     
-    onScenarioItemClick: function (grid, record) {
-        
-    },
-    
-    onNonLocationItemClick: function (grid, record) {
+    onNonLocationSelectionChange: function (grid, records) {
         var me = this,
-            nonLocationForm = me.lookupReference('nonLocationForm');
+            nonLocationForm = me.lookupReference('nonLocationForm'),
+            record = records[0];
         
         if (record) {
             nonLocationForm.getViewModel().setData({ record: record });
@@ -109,10 +114,14 @@ Ext.define('DataGenerator.controller.Job', {
     },
     
     onJobCreateClick: function () {
-        Ext.widget('jobform');
+        var job = Ext.create('DataGenerator.model.jobs.Job', { fileName: 'file.json' }),
+            w = Ext.widget('jobform');
+        
+        w.down('form').getForm().loadRecord(job);
+        w.getViewModel().setData({ record: job });
     },
     
-    onStepCreateClick: function () {        
+    onStepCreateClick: function (grid, records) {        
         var me = this,
             stepGrid = me.lookupReference('stepGrid'),
             stepStore = stepGrid.getStore(),
@@ -145,16 +154,14 @@ Ext.define('DataGenerator.controller.Job', {
         
     },
     
-    onSaveAllJobs: function (btn) {
+    onJobSaveAllJobsClick: function (btn) {
         var me = this,
             jobGrid = me.lookupReference('jobGrid');
-        
-        jobGrid.getStore().sync();
 
         var jobs = [];
 
         Ext.each(jobGrid.getStore().data.items, function (job) {
-            jobs.push(job.getAssociatedData());
+            jobs.push(Ext.merge({}, job.getData(), job.getAssociatedData()));
         });
         
         console.log(jobs, jobGrid.getStore().getProxy());
