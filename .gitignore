@@ -2,6 +2,7 @@
 /cip-geo-data-generator/target/*
 /cip-geo-data-core/target/*
 /.mvn
+._.DS_Store
 
 
 ### STS ###
