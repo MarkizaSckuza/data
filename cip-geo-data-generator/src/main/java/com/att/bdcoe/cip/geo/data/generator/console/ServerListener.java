@@ -12,16 +12,12 @@ import java.net.URISyntaxException;
 
 public class ServerListener extends AbstractLifeCycle.AbstractLifeCycleListener {
 
-    private static Log log = LogFactory.getLog(ServerListener.class);
+    private static final Log LOG = LogFactory.getLog(ServerListener.class);
 
     private String consoleUrl;
 
     public ServerListener(Configuration configuration) {
         consoleUrl = String.format("http://localhost:%d/index.html", configuration.getConsolePort());
-    }
-
-    public void lifeCycleStarted(org.eclipse.jetty.util.component.LifeCycle event) {
-        openBrowser(consoleUrl);
     }
 
     private static void openBrowser(String url) {
@@ -30,15 +26,19 @@ public class ServerListener extends AbstractLifeCycle.AbstractLifeCycleListener 
             try {
                 desktop.browse(new URI(url));
             } catch (IOException | URISyntaxException ex) {
-                log.error("Error opening default browser", ex);
+                LOG.error("Error opening default browser ", ex);
             }
         } else {
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec("xdg-open " + url);
             } catch (IOException ex) {
-                log.error("Error opening default browser", ex);
+                LOG.error("Error opening default browser ", ex);
             }
         }
+    }
+
+    public void lifeCycleStarted(org.eclipse.jetty.util.component.LifeCycle event) {
+        openBrowser(consoleUrl);
     }
 }

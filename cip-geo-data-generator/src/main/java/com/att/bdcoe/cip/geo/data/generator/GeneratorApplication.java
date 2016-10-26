@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class GeneratorApplication {
 
-    private static Log log = LogFactory.getLog(GeneratorApplication.class);
+    private static final Log LOG = LogFactory.getLog(GeneratorApplication.class);
 
     public static void main(String[] args) {
         try {
@@ -27,18 +27,18 @@ public class GeneratorApplication {
             if (configuration.hasErrors()) return;
 
             if (configuration.isConsoleMode()) {
-                log.info("Started in web console mode");
+                LOG.info("Started in web console mode");
                 GeneratorConsole generatorConsole = context.getBean(GeneratorConsole.class);
                 generatorConsole.start();
                 // TODO: shutdown the app by console command
             } else {
-                log.info("Started in general command line mode");
+                LOG.info("Started in general command line mode");
                 DataGenerator generator = context.getBean(DataGenerator.class);
                 generator.start();
-                log.info("Done.");
+                LOG.info("Done.");
             }
         } catch (Exception ex) {
-            log.fatal("Fatal Error", ex);
+            LOG.fatal("Fatal Error", ex);
         }
     }
 }

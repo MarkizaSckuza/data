@@ -4,7 +4,7 @@ package com.att.bdcoe.cip.geo.data.core;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class WiFiSesion {
+public class WiFiSession {
 
     private String sessionID;
     private String venueCode;

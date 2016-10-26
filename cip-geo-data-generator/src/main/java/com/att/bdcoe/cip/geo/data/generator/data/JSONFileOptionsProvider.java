@@ -17,12 +17,11 @@ import java.nio.file.Paths;
 @Component
 public class JSONFileOptionsProvider implements OptionsProvider {
 
-    private Log log = LogFactory.getLog(getClass());
+    private static final Log LOG = LogFactory.getLog(JSONFileOptionsProvider.class);
 
     private ObjectMapper mapper;
 
     public JSONFileOptionsProvider() {
-
         mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -31,14 +30,13 @@ public class JSONFileOptionsProvider implements OptionsProvider {
     public Options read(String filename) throws IOException {
         File optionsFile = new File(filename);
         if (!optionsFile.exists()) {
-            log.warn(String.format("Options file %s not found.", filename));
+            LOG.warn(String.format("Options file %s not found. ", filename));
             return Options.getDefault();
         }
 
         byte[] bytes = Files.readAllBytes(Paths.get(filename));
         String fileContents = new String(bytes, Charset.defaultCharset());
-        Options options = mapper.readValue(fileContents, Options.class);
-        return options;
+        return mapper.readValue(fileContents, Options.class);
     }
 
     @Override

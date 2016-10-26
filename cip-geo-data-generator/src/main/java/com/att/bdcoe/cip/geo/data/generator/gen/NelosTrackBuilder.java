@@ -19,25 +19,27 @@ public class NelosTrackBuilder extends MapTrackBuilder {
 
     @Override
     public Track<String, MapTrackCoord> buildTrack(String s, List<MapTrackCoord> mapTrackCoords) {
-
-        Random rn = new Random();
+        Random random = new Random();
         int maxAccuracy = 6;
         int minAccuracy = 3;
         int accuracy = maxAccuracy - minAccuracy + 1;
 
         mapTrackCoords.get(0).setLabel("Start");
         mapTrackCoords.get(mapTrackCoords.size() - 1).setLabel("Finish");
+
         RandomString randomString = new RandomString(13);
         String stationId = "*" + randomString.nextString();
+
         MapTrack returnMapTrack = new MapTrack(s, mapTrackCoords);
+
         for (MapTrackCoord cord : returnMapTrack.getCoords()) {
             ((NelosCoord) cord).setStationType("1");
             ((NelosCoord) cord).setStationId(stationId);
             ((NelosCoord) cord).setAltitude(0.0);
             ((NelosCoord) cord).setLocMethod(9);
-            ((NelosCoord) cord).setLocAccuracy(minAccuracy + (rn.nextInt() % accuracy));
-            cord.setDelimiter(this.getDelimiter());
-            //cord.fluctuate(rn);
+            ((NelosCoord) cord).setLocAccuracy(minAccuracy + (random.nextInt() % accuracy));
+            cord.setDelimiter(getDelimiter());
+            //cord.fluctuate(random);
         }
 
         return returnMapTrack;
@@ -54,7 +56,6 @@ public class NelosTrackBuilder extends MapTrackBuilder {
     public void setFluctuation(double fluctuation) {
         this.fluctuation = fluctuation;
     }
-
 }
 
 

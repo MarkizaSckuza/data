@@ -6,29 +6,32 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class ArgumentsConfiguration implements Configuration {
 
+    private static final Log LOG = LogFactory.getLog(ArgumentsConfiguration.class);
+
     public static String[] args;
-    private static Log log = LogFactory.getLog(ArgumentsConfiguration.class);
+
     private boolean isConsoleMode = false;
     private boolean isOutputPartitioned = false;
     private int partitionsNumber = 1;
-    private List<String> optionsFilename = Arrays.asList("options.json");
+    private List<String> optionsFilename = Collections.singletonList("options.json");
     private int consolePort = 8888;
     private String outputPath = "output";
     private String wifiOutputPath = "outputwifi";
     private String factoryClassName = "MapTrackBuilder";
-    private String factoryPakageName = "com.att.bdcoe.cip.com.att.bdcoe.cip.geo.data.generator.gen";
+    private String factoryPackageName = "com.att.bdcoe.cip.com.att.bdcoe.cip.geo.data.generator.gen";
     private boolean hasErrors;
     private String delimiter = null;
 
     public ArgumentsConfiguration() {
         Options options = getCommandLineOptions();
-        try {
 
+        try {
             CommandLineParser commandLineParser = new BasicParser();
             CommandLine commandLineArguments = commandLineParser.parse(options, args);
 
@@ -66,7 +69,7 @@ public class ArgumentsConfiguration implements Configuration {
 
 
         } catch (ParseException ex) {
-            //log.warn("Unable to parse command line arguments", ex);
+            //LOG.warn("Unable to parse command line arguments", ex);
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("generator <options> [generator-options-files, ...]", options);
             hasErrors = true;
@@ -152,7 +155,7 @@ public class ArgumentsConfiguration implements Configuration {
     }
 
     @Override
-    public List<String> getOptionFilenames() {
+    public List<String> getOptionFileNames() {
         return optionsFilename;
     }
 
@@ -181,12 +184,12 @@ public class ArgumentsConfiguration implements Configuration {
         return factoryClassName;
     }
 
-    public String getFactoryPakageName() {
-        return factoryPakageName;
+    public String getFactoryPackageName() {
+        return factoryPackageName;
     }
 
-    public void setFactoryPakageName(String factoryPakageName) {
-        this.factoryPakageName = factoryPakageName;
+    public void setFactoryPackageName(String factoryPackageName) {
+        this.factoryPackageName = factoryPackageName;
     }
 
 

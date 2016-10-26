@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class MapTrackCoord extends TrackCoord implements Writable {
 
-    String label;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private String label;
     private String delimiter = null;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 
     public MapTrackCoord(Date timestamp, double lat, double lng, CoordType coordType) {
@@ -27,21 +27,19 @@ public class MapTrackCoord extends TrackCoord implements Writable {
     }
 
     public String writeToString() {
-        StringBuilder formatBuilder = new StringBuilder();
+        String formatBuilder = "%s," +
+                "%s," +
+                "%s," +
+                "%s\n";
 
-
-        formatBuilder.append("%s,");
-        formatBuilder.append("%s,");
-        formatBuilder.append("%s,");
-        formatBuilder.append("%s\n");
 
         String[] formattedValues = new String[4];
-        formattedValues[0] = this.getTimestamp() == null ? "" : encloseWithQuotes(dateFormat.format(this.getTimestamp()));
+        formattedValues[0] = this.getTimestamp() == null ? "" : encloseWithQuotes(DATE_FORMAT.format(this.getTimestamp()));
         formattedValues[1] = encloseWithQuotes(this.getLat());
         formattedValues[2] = encloseWithQuotes(this.getLng());
         formattedValues[3] = this.getLabel() == null ? "" : encloseWithQuotes(this.getLabel());
 
-        return String.format(formatBuilder.toString(), formattedValues);
+        return String.format(formatBuilder, (Object[]) formattedValues);
     }
 
     private String encloseWithQuotes(Object value) {

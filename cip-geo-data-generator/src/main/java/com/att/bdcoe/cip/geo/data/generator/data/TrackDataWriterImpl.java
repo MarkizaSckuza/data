@@ -17,11 +17,9 @@ import java.text.SimpleDateFormat;
 @Component
 public class TrackDataWriterImpl extends Configured implements TrackDataWriter<MapTrack> {
 
-    private Log log = LogFactory.getLog(TrackDataWriterImpl.class);
-
     public static final String FS_PARAM_NAME = "fs.defaultFS";
-
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private static final Log LOG = LogFactory.getLog(TrackDataWriterImpl.class);
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     private String outputPath;
     private String wifiOutputPath;
@@ -29,24 +27,30 @@ public class TrackDataWriterImpl extends Configured implements TrackDataWriter<M
     @Autowired
     public TrackDataWriterImpl(Configuration configuration) {
         this.outputPath = configuration.getOutputPath();
-        File file = new File(this.outputPath);
-        file.mkdirs();
         this.wifiOutputPath = configuration.getWifiOutputPath();
-        file = new File(this.wifiOutputPath);
-        file.mkdirs();
+
+        createFiles();
     }
 
     @Override
     public void write(MapTrack track, Writer writer) throws IOException {
-        log.debug(String.format("Writing track %s", track.getId()));
+        LOG.debug(String.format("Writing track %s", track.getId()));
 
         for (MapTrackCoord coord : track.getCoords())
             writer.write(coord.writeToString());
     }
 
     @Override
-    public void writeWiFiSesion(String sesion, Writer writer) throws IOException {
-        log.debug(String.format("Writing wifi %s", sesion));
-        writer.write(sesion);
+    public void writeWiFiSession(String session, Writer writer) throws IOException {
+        LOG.debug(String.format("Writing wifi %s", session));
+        writer.write(session);
+    }
+
+    private void createFiles() {
+        File file = new File(this.outputPath);
+        file.mkdirs();
+
+        file = new File(this.wifiOutputPath);
+        file.mkdirs();
     }
 }

@@ -8,16 +8,19 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WiFiZone extends Circle {
 
-    private final static double defaultRadius = 0.001916654;
+    private static final double DEFAULT_RADIUS = 0.001916654;
     private int id;
-
     private double lat;
     private double lng;
+
     @JsonIgnore
     private String venueCode;
 
+    private WhenCrossing whenCrossing;
+    private double timeSpent;
+
     public WiFiZone() {
-        this.setRadius(defaultRadius);
+        this.setRadius(DEFAULT_RADIUS);
     }
 
     public WiFiZone(double x, double y, double radius) {
@@ -39,7 +42,7 @@ public class WiFiZone extends Circle {
     }
 
     public WiFiZone(int id, double lat, double lng, WhenCrossing whenCrossing, double timeSpent) {
-        super(lat, lng, WiFiZone.defaultRadius);
+        super(lat, lng, WiFiZone.DEFAULT_RADIUS);
         this.whenCrossing = whenCrossing;
         this.timeSpent = timeSpent;
         this.setId(id);
@@ -50,9 +53,6 @@ public class WiFiZone extends Circle {
         this.whenCrossing = whenCrossing;
         this.timeSpent = timeSpent;
     }
-
-    private WhenCrossing whenCrossing;
-    private double timeSpent;
 
     public WhenCrossing getWhenCrossingAsEnum() {
         return whenCrossing;

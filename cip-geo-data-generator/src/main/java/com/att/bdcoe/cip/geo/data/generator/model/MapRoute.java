@@ -7,6 +7,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MapRoute extends Route<MapCoord> {
+
     public MapRoute() {
         super(0, null);
     }
@@ -26,5 +27,4 @@ public class MapRoute extends Route<MapCoord> {
     public void setPoints(List<MapCoord> points) {
         this.points = points;
     }
-
 }

@@ -18,7 +18,7 @@ import java.io.IOException;
 @org.springframework.stereotype.Service
 public class OptionsServiceImpl implements OptionsService<Options> {
 
-    private static Log log = LogFactory.getLog(OptionsServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(OptionsServiceImpl.class);
     private final Configuration configuration;
     private OptionsProvider optionsProvider;
 
@@ -31,10 +31,9 @@ public class OptionsServiceImpl implements OptionsService<Options> {
     @GET
     public Options get() {
         try {
-            Options options = optionsProvider.read(configuration.getDefaultOptionsFilename());
-            return options;
+            return optionsProvider.read(configuration.getDefaultOptionsFilename());
         } catch (IOException ex) {
-            log.error("Error reading generator options", ex);
+            LOG.error("Error reading generator options ", ex);
             return Options.getDefault();
         }
     }
@@ -44,7 +43,7 @@ public class OptionsServiceImpl implements OptionsService<Options> {
         try {
             optionsProvider.write(configuration.getDefaultOptionsFilename(), options);
         } catch (IOException ex) {
-            log.error("Error reading generator options", ex);
+            LOG.error("Error reading generator options ", ex);
         }
     }
 
@@ -57,7 +56,7 @@ public class OptionsServiceImpl implements OptionsService<Options> {
                 optionsProvider.write(options.getFileName(), options);
             }
         } catch (IOException ex) {
-            log.error("Error reading generator options", ex);
+            LOG.error("Error reading generator options ", ex);
         }
     }
 }

@@ -3,7 +3,8 @@
 /cip-geo-data-core/target/*
 /.mvn
 ._.DS_Store
-
+output
+outputwifi
 
 ### STS ###
 .apt_generated

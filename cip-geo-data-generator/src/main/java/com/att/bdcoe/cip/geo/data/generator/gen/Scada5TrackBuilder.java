@@ -19,28 +19,31 @@ public class Scada5TrackBuilder extends MapTrackBuilder {
 
     @Override
     public Track<String, MapTrackCoord> buildTrack(String s, List<MapTrackCoord> mapTrackCoords) {
-
-        Random rn = new Random();
+        Random random = new Random();
         int maxAccuracy = 6;
         int minAccuracy = 3;
         int accuracy = maxAccuracy - minAccuracy + 1;
 
         mapTrackCoords.get(0).setLabel("Start");
         mapTrackCoords.get(mapTrackCoords.size() - 1).setLabel("Finish");
+
         RandomString stationIdGenerator = new RandomString(13);
+
         String stationId = "*" + stationIdGenerator.nextString();
         String locIdentifier = "attexplenox.atlaga";
+
         MapTrack returnMapTrack = new MapTrack(s, mapTrackCoords);
+
         for (MapTrackCoord cord : returnMapTrack.getCoords()) {
             ((Scada5Coord) cord).setStationType("1");
             ((Scada5Coord) cord).setStationId(stationId);
             ((Scada5Coord) cord).setAltitude(0.0);
             ((Scada5Coord) cord).setLocMethod(9);
-            ((Scada5Coord) cord).setLocAccuracy(minAccuracy + (rn.nextInt() % accuracy));
-            ((Scada5Coord) cord).setDs(((Scada5Coord) cord).getTimestamp());
+            ((Scada5Coord) cord).setLocAccuracy(minAccuracy + (random.nextInt() % accuracy));
+            ((Scada5Coord) cord).setDs(cord.getTimestamp());
             ((Scada5Coord) cord).setLocIdentifier(locIdentifier);
-            cord.setDelimiter(this.getDelimiter());
-            //cord.fluctuate(rn);
+            cord.setDelimiter(getDelimiter());
+            //cord.fluctuate(random);
         }
 
         return returnMapTrack;

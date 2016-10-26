@@ -8,5 +8,5 @@ import java.io.Writer;
 public interface TrackDataWriter<T extends Track> {
     void write(T track, Writer writer) throws IOException;
 
-    void writeWiFiSesion(String sesion, Writer writer) throws IOException;
+    void writeWiFiSession(String session, Writer writer) throws IOException;
 }

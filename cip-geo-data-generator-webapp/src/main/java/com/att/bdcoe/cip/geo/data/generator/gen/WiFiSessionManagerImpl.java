@@ -2,7 +2,7 @@ package com.att.bdcoe.cip.geo.data.generator.gen;
 
 import com.att.bdcoe.cip.geo.data.core.Coord;
 import com.att.bdcoe.cip.geo.data.core.gen.PoinType;
-import com.att.bdcoe.cip.geo.data.core.gen.WiFiSesionManager;
+import com.att.bdcoe.cip.geo.data.core.gen.WiFiSessionManager;
 import com.att.bdcoe.cip.geo.data.core.util.RandomUpperAndNumberString;
 import com.att.bdcoe.cip.geo.data.generator.model.MapCoord;
 import com.att.bdcoe.cip.geo.data.generator.model.MapRoute;
@@ -14,17 +14,16 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 @Component
-public class WiFiSesionManagerImpl implements WiFiSesionManager<WiFiZone, MapRoute, MapCoord> {
+public class WiFiSessionManagerImpl implements WiFiSessionManager<WiFiZone, MapRoute, MapCoord> {
 
-
-    private Random randomGenerator = new Random();
-    private long initSesionId = randomGenerator.nextLong();
     DecimalFormat myFormatter = new DecimalFormat("0000000000000");
     List<WiFiZone> wiFiZones;
     Map<MapCoord, WiFiZone> foundInZone = null;
+    private Random randomGenerator = new Random();
+    private long initSesionId = randomGenerator.nextLong();
 
     @Override
-    public String getNewSesionId() {
+    public String getNewSessionId() {
         initSesionId++;
         return myFormatter.format(initSesionId);
     }
@@ -138,10 +137,10 @@ public class WiFiSesionManagerImpl implements WiFiSesionManager<WiFiZone, MapRou
     }
 
     private boolean notInList(String venueCode, List<MapCoord> wayPoints) {
-        if (wayPoints == null || wayPoints.size() <= 0) return true;
-        if (venueCode == null || venueCode.length() <= 0) return true;
+        if (wayPoints != null ? wayPoints.size() <= 0 : true) return true;
+        if (venueCode != null ? venueCode.length() <= 0 : true) return true;
         for (MapCoord point : wayPoints) {
-            if (point.getVenueCode() != null && point.getVenueCode().equals(venueCode)) return false;
+            if (point.getVenueCode() != null ? point.getVenueCode().equals(venueCode) : false) return false;
         }
         return true;
     }

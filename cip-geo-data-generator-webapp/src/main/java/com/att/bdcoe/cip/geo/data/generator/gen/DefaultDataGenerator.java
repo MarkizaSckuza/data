@@ -2,11 +2,11 @@ package com.att.bdcoe.cip.geo.data.generator.gen;
 
 import com.att.bdcoe.cip.geo.data.core.Route;
 import com.att.bdcoe.cip.geo.data.core.TrackCoord;
-import com.att.bdcoe.cip.geo.data.core.WiFiSesion;
+import com.att.bdcoe.cip.geo.data.core.WiFiSession;
 import com.att.bdcoe.cip.geo.data.core.gen.BehaviourManager;
 import com.att.bdcoe.cip.geo.data.core.gen.Generator;
 import com.att.bdcoe.cip.geo.data.core.gen.GraphBasedGenerator;
-import com.att.bdcoe.cip.geo.data.core.gen.WiFiSesionManager;
+import com.att.bdcoe.cip.geo.data.core.gen.WiFiSessionManager;
 import com.att.bdcoe.cip.geo.data.core.util.DataUtil;
 import com.att.bdcoe.cip.geo.data.core.util.RandomUpperAndNumberString;
 import com.att.bdcoe.cip.geo.data.generator.Configuration;
@@ -35,13 +35,13 @@ public class DefaultDataGenerator implements DataGenerator {
     TrackDataWriter<MapTrack> trackDataWriter;
     Options options = null;
     DataDestination destination;
-    WiFiSesionManager wiFiSesionManager;
+    WiFiSessionManager<WiFiZone, MapRoute, MapCoord> wiFiSesionManager;
     private Log log = LogFactory.getLog(getClass());
     private BehaviourManager behaviourManager;
     private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHH");
 
     @Autowired
-    public DefaultDataGenerator(Configuration configuration, OptionsProvider optionsProvider, TrackDataWriter<MapTrack> trackDataWriter, BehaviourManager behaviourManager, DataDestination destination, WiFiSesionManager wiFiSesionManager) {
+    public DefaultDataGenerator(Configuration configuration, OptionsProvider optionsProvider, TrackDataWriter<MapTrack> trackDataWriter, BehaviourManager behaviourManager, DataDestination destination, WiFiSessionManager<WiFiZone, MapRoute, MapCoord> wiFiSesionManager) {
         this.configuration = configuration;
         this.optionsProvider = optionsProvider;
         this.trackDataWriter = trackDataWriter;
@@ -178,7 +178,7 @@ public class DefaultDataGenerator implements DataGenerator {
 
             for (TrackCoord coord : track.getCoords()) {
                 if (coord.isStayWiFi()) {
-                    WiFiSesion sesion = new WiFiSesion();
+                    WiFiSession sesion = new WiFiSession();
                     sesion.setVenueCode(coord.getVenueCode());
                     sesion.setClientMAC(macAdr);
                     sesion.setStartDate(coord.getWiFiStart());
@@ -190,7 +190,7 @@ public class DefaultDataGenerator implements DataGenerator {
                     sesion.setUserAgent(agent);
                     sesion.setPaymentIdentifier(paymentIdentifier);
                     sesion.setPhoneNumber(phoneNumber);
-                    sesion.setSessionID(wiFiSesionManager.getNewSesionId());
+                    sesion.setSessionID(wiFiSesionManager.getNewSessionId());
 
                     trackDataWriter.writeWiFiSesion(sesion.toString(), wifiWriter);
                 }

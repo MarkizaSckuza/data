@@ -10,9 +10,10 @@ import java.util.List;
 
 public class Scada5Coord extends MapTrackCoord {
 
-    String label;
-    private static String defaultDelimiter = " ";
-
+    private static final String DEFAULT_DELIMITER = " ";
+    private static final SimpleDateFormat TIME_STAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'@'HH:mm:ss.SSSXXX");
+    private static final SimpleDateFormat DS_FORMAT = new SimpleDateFormat("yyyyMMddHH");
+    private String label;
     private String stationType;
     private String StationId;
     private double altitude;
@@ -21,11 +22,14 @@ public class Scada5Coord extends MapTrackCoord {
     private String locIdentifier;
     private Date ds;
 
-    private final SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd'@'HH:mm:ss.SSSXXX");
-    private final SimpleDateFormat dsFormat = new SimpleDateFormat("yyyyMMddHH");
-
     public Scada5Coord(Date timestamp, double lat, double lng, CoordType coordType) {
         super(timestamp, lat, lng, coordType);
+    }
+
+    public static Track<String, NelosCoord> getTrack(String stationType, String StationId, double altitude, int loc_method, double loc_accuracy, String s, List<MapTrackCoord> mapTrackCoords) {
+        MapTrack mapTrack = new MapTrack(s, mapTrackCoords);
+
+        return null;
     }
 
     public String getLabel() {
@@ -76,39 +80,30 @@ public class Scada5Coord extends MapTrackCoord {
         this.locAccuracy = locAccuracy;
     }
 
-    public static Track<String, NelosCoord> getTrack(String stationType, String StationId, double altitude, int loc_method, double loc_accuracy, String s, List<MapTrackCoord> mapTrackCoords) {
-        MapTrack mapTrack = new MapTrack(s, mapTrackCoords);
-
-        return null;
-
-    }
-
     @Override
     public String getDelimiter() {
         if (super.getDelimiter() != null)
             return super.getDelimiter();
         else
-            return defaultDelimiter;
+            return DEFAULT_DELIMITER;
     }
 
     @Override
     public String writeToString() {
-        StringBuilder formatBuilder = new StringBuilder();
+        String formatBuilder = "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%S" + this.getDelimiter() +
+                "%S" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%S\n";
 
-
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%S").append(this.getDelimiter());
-        formatBuilder.append("%S").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%S\n");
 
         String[] formattedValues = new String[10];
-        formattedValues[0] = this.getTimestamp() == null ? "" : timeStampFormat.format(this.getTimestamp());
+        formattedValues[0] = this.getTimestamp() == null ? "" : TIME_STAMP_FORMAT.format(this.getTimestamp());
         formattedValues[1] = encloseWithoutQuotes(this.getStationType());
         formattedValues[2] = encloseWithoutQuotes(this.getStationId());
         formattedValues[3] = encloseWithoutQuotes(this.getLat());
@@ -116,12 +111,12 @@ public class Scada5Coord extends MapTrackCoord {
         formattedValues[5] = encloseWithoutQuotes(this.getAltitude());
         formattedValues[6] = formatDouble(this.getLocMethod());
         formattedValues[7] = formatDouble(this.getLocAccuracy());
-        formattedValues[8] = this.getLocIdentifier() + (this.getDs() == null ? "" : dsFormat.format(this.getDs()));
-        formattedValues[9] = this.getDs() == null ? "" : dsFormat.format(this.getDs());
+        formattedValues[8] = this.getLocIdentifier() + (this.getDs() == null ? "" : DS_FORMAT.format(this.getDs()));
+        formattedValues[9] = this.getDs() == null ? "" : DS_FORMAT.format(this.getDs());
 
         //formattedValues[5] = this.getLabel()==null? "" : this.getLabel();
 
-        return String.format(formatBuilder.toString(), formattedValues);
+        return String.format(formatBuilder, (Object[]) formattedValues);
     }
 
     private String encloseWithoutQuotes(Object value) {

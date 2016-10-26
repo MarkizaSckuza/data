@@ -10,8 +10,8 @@ import java.util.List;
 
 public class NelosCoord extends MapTrackCoord {
 
-    String label;
-    private static String defaultDelimiter = "|";
+    private String label;
+    private static final String DEFAULT_DELIMITER = "|";
 
 
     private String stationType;
@@ -79,7 +79,6 @@ public class NelosCoord extends MapTrackCoord {
         MapTrack mapTrack = new MapTrack(s, mapTrackCoords);
 
         return null;
-
     }
 
     @Override
@@ -87,23 +86,21 @@ public class NelosCoord extends MapTrackCoord {
         if (super.getDelimiter() != null)
             return super.getDelimiter();
         else
-            return defaultDelimiter;
+            return DEFAULT_DELIMITER;
     }
 
     @Override
     public String writeToString() {
-        StringBuilder formatBuilder = new StringBuilder();
+        String formatBuilder = "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%s" + this.getDelimiter() +
+                "%S" + this.getDelimiter() +
+                "%S" + this.getDelimiter() +
+                "%s\n";
 
-
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%s").append(this.getDelimiter());
-        formatBuilder.append("%S").append(this.getDelimiter());
-        formatBuilder.append("%S").append(this.getDelimiter());
-        formatBuilder.append("%s\n");
 
         String[] formattedValues = new String[9];
         formattedValues[0] = this.getTimestamp() == null ? "" : dateFormat.format(this.getTimestamp());
@@ -119,7 +116,7 @@ public class NelosCoord extends MapTrackCoord {
 
         //formattedValues[5] = this.getLabel()==null? "" : this.getLabel();
 
-        return String.format(formatBuilder.toString(), formattedValues);
+        return String.format(formatBuilder, (Object[]) formattedValues);
     }
 
     private String encloseWithoutQuotes(Object value) {
@@ -132,6 +129,5 @@ public class NelosCoord extends MapTrackCoord {
         DecimalFormat df = new DecimalFormat("#");
         return df.format(value);
     }
-
 }
 

@@ -22,8 +22,10 @@ public class StayFor1Minute extends Behaviour<MapTrackCoord> {
     @Override
     public Date behave(List<TrackCoord> trackCoords) {
         if (this.trackIntervalSeconds == 0) return this.startTime;
-        if (trackCoords == null) trackCoords = new ArrayList<TrackCoord>();
+        if (trackCoords == null) trackCoords = new ArrayList<>();
+
         int numberOfPoints = (int) (60 / this.trackIntervalSeconds);
+
         calendar.setTime(this.startTime);
 
         for (int i = 1; i <= numberOfPoints; i++) {

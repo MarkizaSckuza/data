@@ -7,7 +7,7 @@ public interface Configuration {
 
     String getDefaultOptionsFilename();
 
-    List<String> getOptionFilenames();
+    List<String> getOptionFileNames();
 
     int getConsolePort();
 
@@ -15,15 +15,15 @@ public interface Configuration {
 
     String getFactoryClassName();
 
-    String getFactoryPakageName();
+    String getFactoryPackageName();
 
     String getWifiOutputPath();
 
     boolean hasErrors();
 
-    public boolean isOutputPartitioned();
+    boolean isOutputPartitioned();
 
-    public int getPartitionsNumber();
+    int getPartitionsNumber();
 
-    public String getDelimiter();
+    String getDelimiter();
 }

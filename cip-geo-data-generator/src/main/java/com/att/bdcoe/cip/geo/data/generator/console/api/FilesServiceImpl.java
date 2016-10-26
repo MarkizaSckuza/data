@@ -2,6 +2,7 @@ package com.att.bdcoe.cip.geo.data.generator.console.api;
 
 
 import com.att.bdcoe.cip.geo.data.generator.model.Files;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,18 +16,21 @@ import java.util.List;
 
 @Path("/files")
 @Produces({"application/json"})
-@org.springframework.stereotype.Service
+@Service
 public class FilesServiceImpl implements FilesService {
+
     @GET
     public Collection<Files> getList() {
-        List<Files> filesList = new ArrayList<Files>();
-        File currenDir = new File(".");
-        File[] listOfFiles = currenDir.listFiles();
+        List<Files> filesList = new ArrayList<>();
+        File currentDir = new File(".");
+        File[] listOfFiles = currentDir.listFiles();
 
-        for (File fileFromList : listOfFiles) {
-
-            if (fileFromList.isFile() ? (fileFromList.getName().length() > 5 && fileFromList.getName().endsWith(".json")) : false) {
-                filesList.add(new Files(fileFromList.getName()));
+        if (listOfFiles != null) {
+            for (File fileFromList : listOfFiles) {
+                if (fileFromList.isFile()
+                        && (fileFromList.getName().length() > 5 && fileFromList.getName().endsWith(".json"))) {
+                    filesList.add(new Files(fileFromList.getName()));
+                }
             }
         }
         return filesList;
@@ -48,5 +52,4 @@ public class FilesServiceImpl implements FilesService {
             return false;
         }
     }
-
 }

@@ -7,5 +7,5 @@ import com.att.bdcoe.cip.geo.data.core.TrackCoord;
 import java.util.Date;
 
 public interface Generator<TId, TRCoord extends Coord, TTCoord extends TrackCoord>  {
-	public Track<TId, TTCoord> generate(TId id, Date startTimestamp, double trackIntervalSeconds, double speedMps);
+	Track<TId, TTCoord> generate(TId id, Date startTimestamp, double trackIntervalSeconds, double speedMps);
 }

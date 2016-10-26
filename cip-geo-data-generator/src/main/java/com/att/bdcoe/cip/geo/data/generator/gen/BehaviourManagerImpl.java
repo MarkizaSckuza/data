@@ -15,10 +15,13 @@ public class BehaviourManagerImpl implements BehaviourManager<MapTrackCoord> {
 
     @Override
     public Behaviour get(PoinType type, Date start, Coord startCoord, double trackIntervalSeconds, TrackBuilder<String, MapTrackCoord> trackBuilder) {
-        if (type != null && type.equals(PoinType.StayFor1Min))
-            return new StayFor1Minute(start, startCoord, trackIntervalSeconds, trackBuilder);
-        if (type != null && type.equals(PoinType.WiFi))
-            return new StayInWiFi(start, startCoord, trackIntervalSeconds, trackBuilder);
-        return null;
+        Behaviour behaviour = null;
+        if (type != null) {
+            switch (type) {
+                case StayFor1Min: behaviour = new StayFor1Minute(start, startCoord, trackIntervalSeconds, trackBuilder); break;
+                case WiFi: behaviour = new StayInWiFi(start, startCoord, trackIntervalSeconds, trackBuilder); break;
+            }
+        }
+        return behaviour;
     }
 }

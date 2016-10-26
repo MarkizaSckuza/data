@@ -13,7 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 public class StayInWiFi extends Behaviour<MapTrackCoord> {
-    private long stayInMInutes = 2;
+
+    private long stayInMinutes = 2;
 
     public StayInWiFi(Date start, Coord startCoord, double trackIntervalSeconds, TrackBuilder<String, MapTrackCoord> trackBuilder) {
         super(start, startCoord, trackIntervalSeconds, trackBuilder);
@@ -22,10 +23,13 @@ public class StayInWiFi extends Behaviour<MapTrackCoord> {
     @Override
     public Date behave(List<TrackCoord> trackCoords) {
         if (this.trackIntervalSeconds == 0) return this.startTime;
-        if (trackCoords == null) trackCoords = new ArrayList<TrackCoord>();
-        int numberOfPoints = (int) (stayInMInutes * 60 / this.trackIntervalSeconds);
-        calendar.setTime(this.startTime);
+        if (trackCoords == null) trackCoords = new ArrayList<>();
+
+        int numberOfPoints = (int) (stayInMinutes * 60 / this.trackIntervalSeconds);
         TrackCoord coord = null;
+
+        calendar.setTime(this.startTime);
+
         for (int i = 1; i <= numberOfPoints; i++) {
             calendar.add(Calendar.SECOND, (int) trackIntervalSeconds);
             if (i == 1) {
@@ -42,11 +46,11 @@ public class StayInWiFi extends Behaviour<MapTrackCoord> {
         return this.endTime;
     }
 
-    public long getStayInMInutes() {
-        return stayInMInutes;
+    public long getStayInMinutes() {
+        return stayInMinutes;
     }
 
-    public void setStayInMInutes(long stayInMInutes) {
-        this.stayInMInutes = stayInMInutes;
+    public void setStayInMinutes(long stayInMinutes) {
+        this.stayInMinutes = stayInMinutes;
     }
 }

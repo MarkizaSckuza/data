@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebGeneratorConsole implements GeneratorConsole {
 
-    private static Log log = LogFactory.getLog(WebGeneratorConsole.class);
+    private static final Log LOG = LogFactory.getLog(WebGeneratorConsole.class);
 
     private Configuration configuration;
 
@@ -42,7 +42,7 @@ public class WebGeneratorConsole implements GeneratorConsole {
             server.join();
 
         } catch (Exception ex) {
-            log.fatal("Web console error", ex);
+            LOG.fatal("Web console error ", ex);
         }
     }
 }

@@ -37,6 +37,4 @@ public class MapCoord extends Coord {
     public void setLng(double lng) {
         this.lng = lng;
     }
-
-
 }
