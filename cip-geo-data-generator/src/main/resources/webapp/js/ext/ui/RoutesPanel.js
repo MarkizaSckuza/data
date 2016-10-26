@@ -23,6 +23,11 @@ Ext.define("DataGenerator.ui.RoutesPanel",{
                     Ext.getCmp('points-grid').getView().setWidth(width);
                     Ext.getCmp('points-grid').getView().refresh();
                 }
+                if (Ext.getCmp('wifi-grid')) {
+                    Ext.getCmp('wifi-grid').setWidth(width);
+                    Ext.getCmp('wifi-grid').getView().setWidth(width);
+                    Ext.getCmp('wifi-grid').getView().refresh();
+                }
             }
         }
     }
