@@ -1,7 +1,7 @@
 Ext.define("DataGenerator.ui.Options", {
     extend: 'Ext.form.Panel',
     id: 'options',
-    padding: '0',
+    layout: 'vbox',
     items:[
         {
             xtype: 'fieldcontainer',
@@ -15,8 +15,6 @@ Ext.define("DataGenerator.ui.Options", {
                 {
                     xtype: 'label',
                     id: 'current-file',
-                    text: '',
-                    margin: '0 0 0 0',
                     cls: 'emphasis'
                 }
             ]
@@ -137,10 +135,9 @@ Ext.define("DataGenerator.ui.Options", {
             fieldLabel: 'Tracking Interval (sec)',
             id: 'track-interval',
             name: 'trackInterval',
-            margin: '15 15 15 15',
+            margin: '15 15 10 15',
             value: 0,
-            minValue: 0,
-            flex: 1
+            minValue: 0
         },
         {
             xtype: 'textfield',
@@ -148,7 +145,7 @@ Ext.define("DataGenerator.ui.Options", {
             name:'fluctuation',
             id:'fluctuation',
             labelWidth: 140,
-            margin: '15 15 15 15',
+            margin: '15 15 10 15',
             allowBlank: false
         },
         {
@@ -157,7 +154,7 @@ Ext.define("DataGenerator.ui.Options", {
             name:'file-name',
             id:'file-name',
             labelWidth: 140,
-            margin: '15 15 15 15',
+            margin: '15 15 10 15',
             allowBlank: false
         }
     ]

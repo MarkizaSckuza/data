@@ -5,7 +5,6 @@ Ext.define("DataGenerator.ui.RoutesPanel",{
     title: 'Routes',
     region: 'west',
     floatable: false,
-    margin: '0 0 0 0',
     width: 400,
     minWidth: 100,
     autoScroll: true,

@@ -39,6 +39,7 @@ Ext.define("DataGenerator.ui.PointsGrid", {
         {
             xtype:'actioncolumn',
             width: '15%',
+            align:'center',
             items: [{
                 icon: 'img/delete.png',
                 tooltip: 'Delete',

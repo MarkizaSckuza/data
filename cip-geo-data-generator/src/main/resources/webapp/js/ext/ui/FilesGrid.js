@@ -8,6 +8,7 @@ Ext.define("DataGenerator.ui.FilesGrid", {
         {
             xtype:'actioncolumn',
             width: '15%',
+            align:'center',
             items: [{
                 icon: 'img/delete.png',
                 tooltip: 'Delete',
@@ -20,6 +21,7 @@ Ext.define("DataGenerator.ui.FilesGrid", {
         {
             xtype:'actioncolumn',
             width: '15%',
+            align:'center',
             items: [{
                 icon: 'img/open.png',
                 tooltip: 'Open',
@@ -32,9 +34,6 @@ Ext.define("DataGenerator.ui.FilesGrid", {
                         jsonData : rec.get('fileName'),
                         success: app.onOptionsLoaded
                     });
-
-
-
                 }
             }]
         }
