@@ -7,21 +7,19 @@ Ext.define("DataGenerator.ui.FilesGrid", {
         { text: 'File name', dataIndex: 'fileName',width: '70%'},
         {
             xtype:'actioncolumn',
-            width:24,
+            width: '15%',
             items: [{
                 icon: 'img/delete.png',
                 tooltip: 'Delete',
                 handler: function (grid, rowIndex, colIndex) {
                     var app = DataGenerator.getApplication();
-//                    var rec = grid.getStore().getAt(rowIndex);
-//                    var id = rec.get('id');
                     app.removeFile(rowIndex);
                 }
             }]
         },
         {
             xtype:'actioncolumn',
-            width:24,
+            width: '15%',
             items: [{
                 icon: 'img/open.png',
                 tooltip: 'Open',
