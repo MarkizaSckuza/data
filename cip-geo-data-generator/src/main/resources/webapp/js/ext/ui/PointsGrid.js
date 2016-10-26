@@ -7,13 +7,13 @@ Ext.define("DataGenerator.ui.PointsGrid", {
         delay: 10
     })],
     columns: [
-        { text: 'Point #',  dataIndex: 'id', width: 80 },
-        { text: 'Latitude', dataIndex: 'lat', flex: 2 },
-        { text: 'Longitude', dataIndex: 'lng', flex: 2 },
+        { text: 'Point #',  dataIndex: 'id', width: '15%' },
+        { text: 'Latitude', dataIndex: 'lat', flex: 2, width: '25%' },
+        { text: 'Longitude', dataIndex: 'lng', flex: 2, width: '25%' },
         {
             text: 'POI',
             dataIndex: 'poiType',
-            width: 100,
+            width: '20%',
             renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                 var ret;
                 if(value == 0)ret = 'No type';
@@ -38,7 +38,7 @@ Ext.define("DataGenerator.ui.PointsGrid", {
         },
         {
             xtype:'actioncolumn',
-            width:24,
+            width: '15%',
             items: [{
                 icon: 'img/delete.png',
                 tooltip: 'Delete',

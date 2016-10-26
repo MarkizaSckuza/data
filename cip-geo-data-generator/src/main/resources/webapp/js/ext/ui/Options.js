@@ -31,7 +31,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Count',
                     id: 'pedestrians-count',
                     name: 'pedestriansCount',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -41,7 +41,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Speed (mph)',
                     id: 'pedestrians-speed',
                     name: 'pedestriansSpeed',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -58,7 +58,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Count',
                     id: 'bicyclists-count',
                     name: 'bicyclistsCount',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -68,7 +68,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Speed (mph)',
                     id: 'bicyclists-speed',
                     name: 'bicyclistsSpeed',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -85,7 +85,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Count',
                     id: 'cars-count',
                     name: 'carsCount',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -95,7 +95,7 @@ Ext.define("DataGenerator.ui.Options", {
                     fieldLabel: 'Speed (mph)',
                     id: 'cars-speed',
                     name: 'carsSpeed',
-                    margin: '10 10 10 10',
+                    margin: '15 15 15 15',
                     value: 0,
                     minValue: 0,
                     flex: 1
@@ -105,7 +105,7 @@ Ext.define("DataGenerator.ui.Options", {
         {
             xtype: 'fieldcontainer',
             fieldLabel: 'Starting Timestamp',
-            margin: '10 10 10 10',
+            margin: '10 0 10 15',
             labelWidth: 140,
             anchor: '100%',
 
@@ -116,6 +116,7 @@ Ext.define("DataGenerator.ui.Options", {
                     name: 'startDate',
                     id: 'start-date',
                     format: 'Y-m-d',
+                    margin: '0 5 0 0',
                     width: 110,
                     allowBlank: false
                 },
@@ -124,6 +125,7 @@ Ext.define("DataGenerator.ui.Options", {
                     name: 'startTime',
                     id: 'start-time',
                     format: 'H:i:s',
+                    margin: '0 5 0 5',
                     width: 110,
                     allowBlank: false
                 }
@@ -135,7 +137,7 @@ Ext.define("DataGenerator.ui.Options", {
             fieldLabel: 'Tracking Interval (sec)',
             id: 'track-interval',
             name: 'trackInterval',
-            margin: '10 10 10 10',
+            margin: '15 15 15 15',
             value: 0,
             minValue: 0,
             flex: 1
@@ -146,7 +148,7 @@ Ext.define("DataGenerator.ui.Options", {
             name:'fluctuation',
             id:'fluctuation',
             labelWidth: 140,
-            margin: '10 10 10 10',
+            margin: '15 15 15 15',
             allowBlank: false
         },
         {
@@ -155,7 +157,7 @@ Ext.define("DataGenerator.ui.Options", {
             name:'file-name',
             id:'file-name',
             labelWidth: 140,
-            margin: '10 10 10 10',
+            margin: '15 15 15 15',
             allowBlank: false
         }
     ]

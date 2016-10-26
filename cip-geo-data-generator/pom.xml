@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cip-geo-data-generator</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>Consumer Insights Platform - Geo Test Data Generator</name>
     <description>Test GEO data generator.</description>

@@ -8,11 +8,12 @@ Ext.define("DataGenerator.ui.WiFiGrid", {
         delay: 10
     })],
     columns: [
-        { text: 'WiFi #',  dataIndex: 'id', width: 80 },
+        { text: 'WiFi #',  dataIndex: 'id', width: '25%' },
         {
             text: 'Center',
             dataIndex: 'center',
             flex: 1,
+            width: '25%',
             renderer: function(value, p, record){
                 return "(" + record.data.lat + "," + record.data.lng + ")";
             }
@@ -21,7 +22,7 @@ Ext.define("DataGenerator.ui.WiFiGrid", {
         {
             text: 'When Crossing',
             dataIndex: 'whenCrossing',
-            width: 100,
+            width: '25%',
             renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                 var ret;
                 if(value == 0)ret = "Stay ALL";
@@ -47,7 +48,7 @@ Ext.define("DataGenerator.ui.WiFiGrid", {
                 }
             }
         },
-        { text: 'Time spent', dataIndex: 'timeSpent', flex: 2,
+        { text: 'Time spent', dataIndex: 'timeSpent', flex: 2, width: '25%',
             editor:{xtype: 'numberfield',
                 id: 'timeSpent',
                 name: 'timeSpent',
