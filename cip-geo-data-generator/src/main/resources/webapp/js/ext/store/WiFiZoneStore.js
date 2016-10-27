@@ -5,5 +5,4 @@ Ext.define("DataGenerator.store.WiFiZoneStore", {
     reload: function(){
         Ext.getCmp('wifi-grid').getView().refresh();
     }
-
 });

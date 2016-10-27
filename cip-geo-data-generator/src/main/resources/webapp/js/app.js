@@ -1,13 +1,11 @@
 Ext.Loader.setPath('wifi', 'js/WiFi');
 
 Ext.define('DataGenerator.Viewport', {
-
     extend: 'Ext.container.Viewport',
     xtype: 'layout-border',
     requires: ['Ext.layout.container.Border'],
     layout: 'border',
     bodyBorder: false,
-
     defaults: {
         collapsible: true,
         split: true,
@@ -16,14 +14,10 @@ Ext.define('DataGenerator.Viewport', {
 });
 Ext.define('DataGenerator.app.Application', {
     extend: 'Ext.app.Application',
-
     id: 'data-generator',
     name: 'DataGenerator',
-
     currentFilename: "options.json",
-
     map: {},
-
     selectedPolyLineIndex: -1,
     selectedWiFiIndex: -1,
     selectedPolyLinePointIndex: -1,
@@ -36,7 +30,6 @@ Ext.define('DataGenerator.app.Application', {
     WiFiMarkers: [],
     WiFi: [],
     currentWiFi: new google.maps.Circle(),
-
     selectedPointShape: {
         path: google.maps.SymbolPath.CIRCLE,
         strokeColor: '#CD0D0D',
@@ -44,7 +37,6 @@ Ext.define('DataGenerator.app.Application', {
         fillOpacity: 1,
         scale: 4
     },
-
     poiShapes: [
         {
             path: 'M -4,0 0,-4 4,0 0,4 z',
@@ -71,20 +63,16 @@ Ext.define('DataGenerator.app.Application', {
             fillOpacity: 1
         }
     ],
-
-
     polyOptions: {
         strokeColor: '#CD0D0D',
         strokeOpacity: 0.5,
         strokeWeight: 3
     },
-
     selectedPolyOptions: {
         strokeColor: '#CD0D0D',
         strokeOpacity: 0.5,
         strokeWeight: 6
     },
-
     optionsWiFi: {
         strokeColor: '#0000ff',
         strokeOpacity: 0.2,
@@ -98,7 +86,6 @@ Ext.define('DataGenerator.app.Application', {
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: '#FF0000',
-//        fillOpacity: 0.35,
         radius: 213.36
     },
     options: {
@@ -112,45 +99,29 @@ Ext.define('DataGenerator.app.Application', {
         "fileName": 'options.json',
         'beginOnlyFromSpecialPoints': false,
         'fluctuation': 0.0
-
-    },
-    files: {
-        "fileName": []
-    },
-
-    fileToLoad: {
-        "fileName": ""
     },
 
     launch: function () {
-
-
         Ext.QuickTips.init();
         Ext.Loader.setPath('DataGenerator', '/js/ext');
 
-
+        var app = DataGenerator.getApplication();
         var index = 0;
         var defaultWiFiRadius = 0.001916654;
 
         var routesPanel = Ext.create('DataGenerator.ui.RoutesPanel');
         var optionsPanel = Ext.create('DataGenerator.ui.OptionsPanel');
-
         var mapEditor = Ext.create('DataGenerator.ui.Map');
-
         Ext.create('DataGenerator.Viewport', {
             items: [routesPanel, optionsPanel, mapEditor]
         });
-
         Ext.create('DataGenerator.ui.MapToolbar', {renderTo: Ext.get('map-toolbar')});
-
-        var app = DataGenerator.getApplication();
 
         var routesStore = Ext.create('DataGenerator.store.RoutesStore', {data: app.options});
         var routesGrid = Ext.create('DataGenerator.ui.RoutesGrid', {
             renderTo: Ext.get('routes'),
             store: Ext.data.StoreManager.lookup('routesStore')
         });
-
         var pointsStore = Ext.create('DataGenerator.store.PointsStore');
         var pointsGrid = Ext.create('DataGenerator.ui.PointsGrid', {
             renderTo: Ext.get('points'),
@@ -163,16 +134,12 @@ Ext.define('DataGenerator.app.Application', {
             store: fileStore
         });
 
-        createWiFi();
-
         routesStore.on('refresh', function () {
             var routesPanel = Ext.getCmp('routes-panel');
             routesGrid.setWidth(routesPanel.getWidth());
             routesGrid.getView().setWidth(routesPanel.getWidth());
             routesGrid.getView().refresh();
         });
-
-
         pointsStore.on('refresh', function () {
             var routesPanel = Ext.getCmp('routes-panel');
             pointsGrid.setWidth(routesPanel.getWidth());
@@ -191,6 +158,9 @@ Ext.define('DataGenerator.app.Application', {
             renderTo: Ext.get('options')
         });
 
+        Ext.getCmp('current-file').setText(app.options.fileName);
+        Ext.getCmp('file-name').setValue(app.options.fileName);
+
         var poiStore = Ext.create('Ext.data.Store', {
             storeId: 'poiStore',
             fields: ['id', 'name'],
@@ -201,12 +171,6 @@ Ext.define('DataGenerator.app.Application', {
                 {"id": 3, "name": "Stay if WiFi"}
             ]
         });
-        routesPanel.setWidth(500);
-
-        this.initializeMap();
-
-        Ext.getCmp('current-file').setText(app.options.fileName);
-        Ext.getCmp('file-name').setValue(app.options.fileName);
 
         Ext.Ajax.request({
             url: '/api/options',
@@ -219,17 +183,20 @@ Ext.define('DataGenerator.app.Application', {
             success: this.onFilesLoaded
         });
 
-
+        this.initializeMap();
+        createWiFi();
     },
 
     getPoiShape: function (index) {
         var app = DataGenerator.getApplication();
+
         if (index == undefined || index < 0 || index >= app.poiShapes.length) return app.poiShapes[0];
         return app.poiShapes[index];
     },
 
     setRoutePoints: function (routeIndex, path) {
         var app = DataGenerator.getApplication();
+
         var points = app.pathToPoints(path);
         app.options.routes[routeIndex].points = points;
         Ext.data.StoreManager.lookup('routesStore').loadData(app.options.routes);
@@ -238,6 +205,7 @@ Ext.define('DataGenerator.app.Application', {
 
     addRoute: function (path) {
         var app = DataGenerator.getApplication();
+
         app.options.routes.push({"id": app.polyLines.length, "points": app.pathToPoints(path)});
         Ext.data.StoreManager.lookup('routesStore').loadData(app.options.routes);
     },
@@ -312,6 +280,7 @@ Ext.define('DataGenerator.app.Application', {
 
     clearSelectedMarkers: function (selectedIndex) {
         var app = DataGenerator.getApplication();
+
         app.polyLinesMarkers[selectedIndex].forEach(function (marker) {
             marker.setMap(null);
         });
@@ -320,6 +289,7 @@ Ext.define('DataGenerator.app.Application', {
 
     addSelectedMarkers: function (selectedIndex) {
         var app = DataGenerator.getApplication();
+
         var polyLine = app.polyLines[selectedIndex];
         var path = polyLine.getPath();
         path.forEach(function (point) {
@@ -362,7 +332,6 @@ Ext.define('DataGenerator.app.Application', {
         if (route.points == null || route.points.length <= 0) return;
 
         var app = DataGenerator.getApplication();
-
         var mapObjects = app.createMapObjects(route);
 
         app.polyLines.push(mapObjects.polyLine);
@@ -371,6 +340,7 @@ Ext.define('DataGenerator.app.Application', {
 
     refreshPolyLine: function (index) {
         var app = DataGenerator.getApplication();
+
         app.polyLines[index].setMap(null);
         app.polyLines[index] = null;
 
@@ -413,8 +383,8 @@ Ext.define('DataGenerator.app.Application', {
 
     removePolyLine: function (index) {
         var app = DataGenerator.getApplication();
-        app.polyLines[index].setMap(null);
 
+        app.polyLines[index].setMap(null);
         app.polyLines.splice(index, 1);
         app.clearSelectedMarkers(index);
         app.polyLinesMarkers.splice(index, 1);
@@ -453,7 +423,7 @@ Ext.define('DataGenerator.app.Application', {
 
     bindData: function (data) {
         var app = DataGenerator.getApplication();
-        debugger;
+
         Ext.getCmp('pedestrians-count').setValue(data.pedestrians.count == null ? 10 : data.pedestrians.count);
         Ext.getCmp('pedestrians-speed').setValue(data.pedestrians.speed == null ? 3 : data.pedestrians.speed);
         Ext.getCmp('bicyclists-count').setValue(data.bicyclists.count == null ? 10 : data.bicyclists.count);
@@ -499,7 +469,6 @@ Ext.define('DataGenerator.app.Application', {
     },
 
     calculateBoundsAndCenter: function (options) {
-
         var left = Number.MAX_VALUE;
         var right = -Number.MAX_VALUE;
         var bottom = Number.MAX_VALUE;
@@ -589,6 +558,7 @@ Ext.define('DataGenerator.app.Application', {
 
     deselectAllPoints: function () {
         var app = DataGenerator.getApplication();
+
         for (var l = 0; l < app.polyLines.length; l++) {
             var polyLine = app.polyLines[l];
             var path = polyLine.getPath();
@@ -610,6 +580,7 @@ Ext.define('DataGenerator.app.Application', {
 
     selectRouteByIndex: function (index) {
         var app = DataGenerator.getApplication();
+
         app.deselectAllPolyLines();
         app.selectPolyLine(index);
 
@@ -620,11 +591,13 @@ Ext.define('DataGenerator.app.Application', {
     selectPolyLine: function (index) {
         var app = DataGenerator.getApplication();
         var selectedPolyLine = app.polyLines[index];
+
         selectedPolyLine.setOptions(app.selectedPolyOptions);
     },
 
     deselectAllPolyLines: function () {
         var app = DataGenerator.getApplication();
+
         app.polyLines.forEach(function (item) {
             item.setOptions(app.polyOptions);
         });
@@ -644,9 +617,9 @@ Ext.define('DataGenerator.app.Application', {
     },
 
     removePoint: function (id) {
-        debugger;
         var app = DataGenerator.getApplication();
         var route = app.options.routes[app.selectedPolyLineIndex];
+
         route.points.splice(id - 1, 1);
         for (var i = 0; i < route.points.length; i++) {
             route.points[i].id = i + 1;
@@ -656,17 +629,15 @@ Ext.define('DataGenerator.app.Application', {
     },
 
     removeFile: function (id) {
-        debugger;
         var app = DataGenerator.getApplication();
         var file = app.files[id];
+
         app.files.splice(id, 1);
         Ext.data.StoreManager.lookup('filesStore').loadData(app.files);
         Ext.Ajax.request({
             url: '/api/files',
             method: 'DELETE',
             params: file.fileName
-//            ,
-//            success: app.onFilesLoaded()
         });
 
     },
@@ -730,7 +701,6 @@ Ext.define('DataGenerator.app.Application', {
     },
 
     saveAsOptions: function () {
-
         var app = DataGenerator.getApplication();
         app.updateOptionsObject();
 
@@ -750,8 +720,6 @@ Ext.define('DataGenerator.app.Application', {
                 Ext.data.StoreManager.lookup('filesStore').commitChanges();
             }
         });
-
-
         Ext.getCmp('current-file').setText(app.options.fileName);
     },
 
