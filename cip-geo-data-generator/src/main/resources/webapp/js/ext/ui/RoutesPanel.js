@@ -14,18 +14,12 @@ Ext.define("DataGenerator.ui.RoutesPanel",{
             fn: function(sndr, width) {
                 if (Ext.getCmp('routes-grid')) {
                     Ext.getCmp('routes-grid').setWidth(width);
-                    Ext.getCmp('routes-grid').getView().setWidth(width);
-                    Ext.getCmp('routes-grid').getView().refresh();
                 }
                 if (Ext.getCmp('points-grid')) {
                     Ext.getCmp('points-grid').setWidth(width);
-                    Ext.getCmp('points-grid').getView().setWidth(width);
-                    Ext.getCmp('points-grid').getView().refresh();
                 }
                 if (Ext.getCmp('wifi-grid')) {
                     Ext.getCmp('wifi-grid').setWidth(width);
-                    Ext.getCmp('wifi-grid').getView().setWidth(width);
-                    Ext.getCmp('wifi-grid').getView().refresh();
                 }
             }
         }

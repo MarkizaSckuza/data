@@ -1,17 +1,18 @@
-Ext.define("DataGenerator.ui.MapToolbar",{
+Ext.define("DataGenerator.ui.MapToolbar", {
     extend: 'Ext.toolbar.Toolbar',
+    id: 'map-toolbar',
+    enableOverflow: true,
     items: [
         {
             xtype: 'button',
             text: 'Create Route',
             id: 'btn-create-route',
-            //scope: this,
             enableToggle: true,
 
-            toggleHandler : function(button, pressed) {
+            toggleHandler: function (button, pressed) {
                 var app = DataGenerator.getApplication();
                 if (pressed) {
-                    app.creatingRoute=true;
+                    app.creatingRoute = true;
                     Ext.getCmp('btn-create-route').setText("Finish");
 
                     app.disableControls([Ext.getCmp('btn-create-route')]);
@@ -22,14 +23,14 @@ Ext.define("DataGenerator.ui.MapToolbar",{
                 }
                 else {
                     Ext.getCmp('btn-create-route').setText("Create Route");
-                    app.creatingRoute=false;
+                    app.creatingRoute = false;
                     app.enableControls();
 
                     google.maps.event.clearListeners(app.map, 'click');
 
                     var path = app.currentPolyLine.getPath();
 
-                    if(path.length > 1) {
+                    if (path.length > 1) {
                         app.polyLines.push(app.currentPolyLine);
                         app.polyLinesMarkers.push(app.currentMarkers);
                         app.addRoute(path);
@@ -45,10 +46,10 @@ Ext.define("DataGenerator.ui.MapToolbar",{
             text: 'Edit Route',
             id: 'btn-edit-route',
             enableToggle: true,
-            toggleHandler : function(button, pressed) {
+            toggleHandler: function (button, pressed) {
 
                 var app = DataGenerator.getApplication();
-                if (app.polyLines.length <= 0 || app.selectedPolyLineIndex < 0){
+                if (app.polyLines.length <= 0 || app.selectedPolyLineIndex < 0) {
                     Ext.getCmp('btn-edit-route').setPressed(false);
                     return;
                 }
@@ -57,7 +58,7 @@ Ext.define("DataGenerator.ui.MapToolbar",{
 
                 if (pressed) {
                     Ext.getCmp('btn-edit-route').setText("Finish Editing");
-                    if(selectedPolyLine != null) {
+                    if (selectedPolyLine != null) {
                         app.clearSelectedMarkers(app.selectedPolyLineIndex);
                         app.disableControls([Ext.getCmp('btn-edit-route')]);
                         selectedPolyLine.setEditable(true);
@@ -65,7 +66,7 @@ Ext.define("DataGenerator.ui.MapToolbar",{
                 }
                 else {
                     Ext.getCmp('btn-edit-route').setText("Edit Route");
-                    if(selectedPolyLine != null) {
+                    if (selectedPolyLine != null) {
                         selectedPolyLine.setEditable(false);
                         app.setRoutePoints(app.selectedPolyLineIndex, selectedPolyLine.getPath());
                         app.addSelectedMarkers(app.selectedPolyLineIndex);
@@ -78,23 +79,23 @@ Ext.define("DataGenerator.ui.MapToolbar",{
             xtype: 'button',
             id: 'btn-remove-route',
             text: 'Remove Route',
-            handler : function() {
+            handler: function () {
                 var app = DataGenerator.getApplication();
 
-                if(app.selectedPolyLineIndex < 0) return;
+                if (app.selectedPolyLineIndex < 0) return;
 
                 app.removePolyLine(app.selectedPolyLineIndex);
 
                 app.options.routes.splice(app.selectedPolyLineIndex, 1);
 
-                for(var i = 0; i < app.options.routes.length; i++) {
+                for (var i = 0; i < app.options.routes.length; i++) {
                     app.options.routes[i].id = i + 1;
                 }
 
                 Ext.data.StoreManager.lookup('pointsStore').removeAll();
                 Ext.data.StoreManager.lookup('routesStore').loadData(app.options.routes);
 
-                if(app.selectedPolyLineIndex >= 0 && app.selectedPolyLineIndex < app.options.routes.length) {
+                if (app.selectedPolyLineIndex >= 0 && app.selectedPolyLineIndex < app.options.routes.length) {
                     var points = app.options.routes[app.selectedPolyLineIndex].points;
                     Ext.data.StoreManager.lookup('pointsStore').loadData(points);
                 }
@@ -104,7 +105,7 @@ Ext.define("DataGenerator.ui.MapToolbar",{
             xtype: 'button',
             id: 'btn-clear-routes',
             text: 'Clear All Routes',
-            handler : function() {
+            handler: function () {
                 var app = DataGenerator.getApplication();
 
                 if (app.options.routes.length <= 0) return;
@@ -120,23 +121,20 @@ Ext.define("DataGenerator.ui.MapToolbar",{
             xtype: 'button',
             text: 'Create WiFi',
             id: 'btn-create-wifi',
-            //scope: this,
             enableToggle: true,
 
-            toggleHandler : function(button, pressed) {
+            toggleHandler: function (button, pressed) {
                 var app = DataGenerator.getApplication();
                 if (pressed) {
                     Ext.getCmp('btn-create-wifi').setText("Finish");
-                    app.creatingWiFi=true;
+                    app.creatingWiFi = true;
                     app.disableControls([Ext.getCmp('btn-create-wifi')]);
 
-//                    app.currentPolyLine = new google.maps.Polyline(app.polyOptions);
-//                    app.currentPolyLine.setMap(app.map);
                     google.maps.event.addListener(app.map, 'click', app.addLatLng);
                 }
                 else {
                     Ext.getCmp('btn-create-wifi').setText("Create WiFi");
-                    app.creatingWiFi=false;
+                    app.creatingWiFi = false;
                     app.enableControls();
 
                     google.maps.event.clearListeners(app.map, 'click');
@@ -147,20 +145,17 @@ Ext.define("DataGenerator.ui.MapToolbar",{
             xtype: 'button',
             id: 'btn-remove-wifi',
             text: 'Remove WiFi',
-            handler : function() {
+            handler: function () {
                 var app = DataGenerator.getApplication();
-                var row =Ext.getCmp('wifi-grid').getSelectionModel().getSelection()[0];
-                app.options.wifi.splice(row.id-1, 1);
+                var row = Ext.getCmp('wifi-grid').getSelectionModel().getSelection()[0];
+                app.options.wifi.splice(row.id - 1, 1);
                 app.currentWiFi.setMap(null);
                 app.currentWiFi = null;
-                app.WiFiMarkers.splice(row.id-1, 1);
-//                var store = Ext.data.StoreManager.lookup('wifiZoneStore');
+                app.WiFiMarkers.splice(row.id - 1, 1);
                 refreshWiFiIds();
                 loadWiFiStore();
-                //store.remove(store.findRecord("item_id","1"));
-//                var records= store.findRecord("id",row.id);
-//                var app = DataGenerator.getApplication();
             }
-        }
+
+        },
     ]
 });

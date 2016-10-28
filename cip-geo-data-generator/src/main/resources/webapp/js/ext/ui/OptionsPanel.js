@@ -14,8 +14,6 @@ Ext.define("DataGenerator.ui.OptionsPanel",{
             fn: function (sndr, width) {
                 if (Ext.getCmp('files-grid')) {
                     Ext.getCmp('files-grid').setWidth(width);
-                    Ext.getCmp('files-grid').getView().setWidth(width);
-                    Ext.getCmp('files-grid').getView().refresh();
                 }
             }
         }
