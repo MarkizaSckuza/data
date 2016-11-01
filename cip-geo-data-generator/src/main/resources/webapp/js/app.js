@@ -137,14 +137,10 @@ Ext.define('DataGenerator.app.Application', {
         routesStore.on('refresh', function () {
             var routesPanel = Ext.getCmp('routes-panel');
             routesGrid.setWidth(routesPanel.getWidth());
-            routesGrid.getView().setWidth(routesPanel.getWidth());
-            routesGrid.getView().refresh();
         });
         pointsStore.on('refresh', function () {
             var routesPanel = Ext.getCmp('routes-panel');
             pointsGrid.setWidth(routesPanel.getWidth());
-            pointsGrid.getView().setWidth(routesPanel.getWidth());
-            pointsGrid.getView().refresh();
         });
 
         routesGrid.getSelectionModel().on('selectionchange', app.onRouteSelected);
@@ -232,7 +228,8 @@ Ext.define('DataGenerator.app.Application', {
     initializeMap: function () {
         var mapOptions = {
             zoom: 16,
-            center: new google.maps.LatLng(37.445832, -122.1601447)
+            center: new google.maps.LatLng(37.445832, -122.1601447),
+            height: '55px'
         };
         var app = DataGenerator.getApplication();
 

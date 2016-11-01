@@ -4,7 +4,8 @@ Ext.define("DataGenerator.ui.Map",{
     region: 'center',
     id: 'map-control',
     minWidth: 100,
-    html: '<div id="map-toolbar"></div><div id="map"></div>',
+    layout: 'fit',
+    html: '<div id="map-toolbar"></div><div id="map" style="height: 95%;"></div>',
     listeners: {
         resize: {
             fn: function (sndr, width) {

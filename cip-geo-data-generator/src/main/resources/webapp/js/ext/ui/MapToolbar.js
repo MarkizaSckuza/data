@@ -8,6 +8,7 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             text: 'Create Route',
             id: 'btn-create-route',
             enableToggle: true,
+            margin: '5 5 5 5',
 
             toggleHandler: function (button, pressed) {
                 var app = DataGenerator.getApplication();
@@ -46,6 +47,8 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             text: 'Edit Route',
             id: 'btn-edit-route',
             enableToggle: true,
+            margin: '5 5 5 5',
+
             toggleHandler: function (button, pressed) {
 
                 var app = DataGenerator.getApplication();
@@ -79,6 +82,8 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             xtype: 'button',
             id: 'btn-remove-route',
             text: 'Remove Route',
+            margin: '5 5 5 5',
+
             handler: function () {
                 var app = DataGenerator.getApplication();
 
@@ -105,6 +110,8 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             xtype: 'button',
             id: 'btn-clear-routes',
             text: 'Clear All Routes',
+            margin: '5 5 5 5',
+
             handler: function () {
                 var app = DataGenerator.getApplication();
 
@@ -122,6 +129,7 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             text: 'Create WiFi',
             id: 'btn-create-wifi',
             enableToggle: true,
+            margin: '5 5 5 5',
 
             toggleHandler: function (button, pressed) {
                 var app = DataGenerator.getApplication();
@@ -145,6 +153,8 @@ Ext.define("DataGenerator.ui.MapToolbar", {
             xtype: 'button',
             id: 'btn-remove-wifi',
             text: 'Remove WiFi',
+            margin: '5 5 5 5',
+
             handler: function () {
                 var app = DataGenerator.getApplication();
                 var row = Ext.getCmp('wifi-grid').getSelectionModel().getSelection()[0];
@@ -156,6 +166,6 @@ Ext.define("DataGenerator.ui.MapToolbar", {
                 loadWiFiStore();
             }
 
-        },
+        }
     ]
 });
